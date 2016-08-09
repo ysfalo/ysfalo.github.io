@@ -1,0 +1,844 @@
+<!doctype html>
+<html class="theme-next   use-motion ">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Computer Science," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.2" />
+
+
+
+
+
+
+<meta name="description" content="DMTK
+项目地址: https://github.com/Microsoft/DMTK
+文档地址: http://www.dmtk.io/document.html
+项目语言: CPP
+项目简介:
+DMTK分布式机器学习框架：它由参数服务器和客户端软件开发包（SDK）两部分构成。参数服务器在原有基础上从性能和功能上都得到了进一步提升——支持存储混合数据结构模型、 接受并聚合工作节点服务器的数据模">
+<meta property="og:type" content="article">
+<meta property="og:title" content="常用机器学习框架">
+<meta property="og:url" content="http://yoursite.com/2015/11/21/常用机器学习框架/index.html">
+<meta property="og:site_name" content="Bin Xu' s blog">
+<meta property="og:description" content="DMTK
+项目地址: https://github.com/Microsoft/DMTK
+文档地址: http://www.dmtk.io/document.html
+项目语言: CPP
+项目简介:
+DMTK分布式机器学习框架：它由参数服务器和客户端软件开发包（SDK）两部分构成。参数服务器在原有基础上从性能和功能上都得到了进一步提升——支持存储混合数据结构模型、 接受并聚合工作节点服务器的数据模">
+<meta property="og:updated_time" content="2016-07-10T13:42:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="常用机器学习框架">
+<meta name="twitter:description" content="DMTK
+项目地址: https://github.com/Microsoft/DMTK
+文档地址: http://www.dmtk.io/document.html
+项目语言: CPP
+项目简介:
+DMTK分布式机器学习框架：它由参数服务器和客户端软件开发包（SDK）两部分构成。参数服务器在原有基础上从性能和功能上都得到了进一步提升——支持存储混合数据结构模型、 接受并聚合工作节点服务器的数据模">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'always',
+    motion: true
+  };
+</script>
+
+  <title> 常用机器学习框架 | Bin Xu' s blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+
+
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Bin Xu' s blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Life means struggle.</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                常用机器学习框架
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2015-11-21T13:50:25+08:00" content="2015-11-21">
+              2015-11-21
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><hr>
+<h1 id="DMTK"><em>DMTK</em></h1><ul>
+<li>项目地址: <a href="https://github.com/Microsoft/DMTK" target="_blank" rel="external">https://github.com/Microsoft/DMTK</a></li>
+<li>文档地址: <a href="[http://www.dmtk.io/document.html">http://www.dmtk.io/document.html</a></li>
+<li>项目语言: CPP</li>
+<li>项目简介:<br><ul>
+<li>DMTK分布式机器学习框架：<br>它由参数服务器和客户端软件开发包（SDK）两部分构成。参数服务器在原有基础上从性能和功能上都得到了进一步提升——支持存储混合数据结构模型、 接受并聚合工作节点服务器的数据模型更新、控制模型同步逻辑等。客户端软件开发包（SDK）支持维护节点模型缓存（与全局模型服务器同步）、节点模型训练 和模型通讯的流水线控制、以及片状调度大模型训练等。<a id="more"></a></li>
+<li>LightLDA：<br>LightLDA是一种全新的用于训练主题模型，计算复杂度与主题数目无关的高效算法。在其分布式实现中，我们做了大量的系统优化使得 LightLDA能够在一个普通计算机集群上处理超大规模的数据和模型。例如，在一个由8台计算机组成的集群上，我们可以在具有2千亿训练样本 （token）的数据集上训练具有1百万词汇表和1百万个话题（topic）的LDA模型（约1万亿个参数），这种规模的实验以往要在数千台计算机的集群 上才能运行。</li>
+<li>分布式词向量：<br>词向量技术近来被普遍地应用于计算词汇的语义表示，它可以用作很多自然语言处理任务的词特征。我们为两种计算词向量的算法提供了高效的分步式实现：<ol>
+<li>一种是标准的word2vec算法</li>
+<li>另一种是可以对多义词计算多个词向量的新算法</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h1 id="TensorFlow"><em>TensorFlow</em></h1><ul>
+<li>项目地址:    <a href="http://tensorflow.org/" target="_blank" rel="external">http://tensorflow.org/</a></li>
+<li>项目语言:  Python</li>
+<li>项目简介:<br><ul>
+<li>TensorFlow是谷歌研发的第二代人工智能学习系统，而第一代的DistBelief比这个要早好多年。</li>
+<li>TensorFlow支持CNN、RNN和LSTM算法，这都是目前在Image，Speech和NLP最流行的深度神经网络模型。</li>
+<li>此外，TensorFlow一大亮点是支持异构设备分布式计算，它能够在各个平台上自动运行模型，从电话、单个CPU / GPU到成百上千GPU卡组成的分布式系统。也就是说，任何基于梯度的机器学习算法都能够受益于TensorFlow的自动分化（auto- differentiation）。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h1 id="Torch"><em>Torch</em></h1><ul>
+<li>项目地址:    <a href="https://github.com/torch/torch7" target="_blank" rel="external">https://github.com/torch/torch7</a></li>
+<li>项目博客:    <a href="http://torch.ch/blog/" target="_blank" rel="external">http://torch.ch/blog/</a></li>
+<li>项目语言:  Lua</li>
+<li>项目简介:<br><ul>
+<li>Torch并没有跟随Python的潮流，它是基于Lua的。对于解释器没有必要像Matlab或者Python那样，Lua会给你神奇的控制台。Torch被Facebook人工智能研究实验室和位于伦敦的谷歌DeepMind大量使用。Torch is a scientific computing framework with wide support for machine learning algorithms. It is &gt; &gt; easy to use and efficient, thanks to an easy and fast scripting language, LuaJIT, and an underlying &gt; C/CUDA implementation.<br>A summary of core features:<br>a powerful N-dimensional array<br>lots of routines for indexing, slicing, transposing, …<br>amazing interface to C, via LuaJIT<br>linear algebra routines<br>neural network, and energy-based models<br>numeric optimization routines<br>Fast and efficient GPU support<br>Embeddable, with ports to iOS, Android and FPGA backends</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h1 id="GraphLab"><em>GraphLab</em></h1><ul>
+<li>项目简介:    <a href="http://www.select.cs.cmu.edu/code/graphlab/" target="_blank" rel="external">http://www.select.cs.cmu.edu/code/graphlab/</a></li>
+<li>项目语言:     Java/Python</li>
+<li>项目简介:<ul>
+<li>GraphLab是一个流行的图谱分析（Graph Analysis）和机器学习的开源项目，2013年该项目剥离出一个独立运作的商业公司GraphLab Inc<br>HDFS。GraphLab 内置对HDFS 的支持，GraphLab 能够直接从HDFS中读数据或将计算结果数据直接写入到HDFS 中。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h1 id="Deeplearning4j"><em>Deeplearning4j</em></h1><ul>
+<li>项目文档:    <a href="http://deeplearning4j.org/" target="_blank" rel="external">http://deeplearning4j.org/</a></li>
+<li>项目地址:    <a href="http://deeplearning4j.org/" target="_blank" rel="external">https://github.com/deeplearning4j/deeplearning4j</a></li>
+<li>项目语言:    Java/Scala</li>
+<li>项目简介:<ul>
+<li>Deeplearning4j is the first commercial-grade, open-source, distributed deep-learning library written for Java and Scala. Integrated with Hadoop and Spark, DL4J is designed to be used in business environments, rather than as a research tool.<br>Versatile n-dimensional array class<br>GPU integration<br>Scalable on Hadoop, Spark and Akka + AWS et al</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h1 id="Caffe"><em>Caffe</em></h1><ul>
+<li>项目主页:    <a href="http://caffe.berkeleyvision.org/" target="_blank" rel="external">http://caffe.berkeleyvision.org/</a></li>
+<li>项目地址:    <a href="https://github.com/BVLC/caffe" target="_blank" rel="external">https://github.com/BVLC/caffe</a></li>
+<li>项目简介:<ul>
+<li>The Caffe framework from UC Berkeley is designed to let researchers create and explore CNNs and other Deep Neural Networks (DNNs) easily, while delivering high speed needed for both experiments and industrial deployment [5]. Caffe provides state-of-the-art modeling for advancing and deploying deep learning in research and industry with support for a wide variety of architectures and efficient implementations of prediction and learning.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h1 id="Theano"><em>Theano</em></h1><ul>
+<li>项目主页:    <a href="http://deeplearning.net/software/theano/" target="_blank" rel="external">http://deeplearning.net/software/theano/</a></li>
+<li>项目地址:    <a href="https://github.com/Theano/Theano" target="_blank" rel="external">https://github.com/Theano/Theano</a></li>
+</ul>
+<hr>
+<h1 id="Pylearn2"><em>Pylearn2</em></h1><ul>
+<li>文档地址:    <a href="http://deeplearning.net/software/pylearn2/" target="_blank" rel="external">http://deeplearning.net/software/pylearn2/</a></li>
+<li>项目地址:    <a href="https://github.com/lisa-lab/pylearn2" target="_blank" rel="external">https://github.com/lisa-lab/pylearn2</a></li>
+<li>项目简介:<ul>
+<li>Pylearn2和Theano由同一个开发团队开发，Pylearn2是一个机器学习库，它把深度学习和人工智能研究许多常用的模型以及训练算法封装成一个单一的实验包，如随机梯度下降。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h1 id="Apache_SystemML"><em>Apache SystemML</em></h1><ul>
+<li>项目主页:    <a href="http://systemml.apache.org/" target="_blank" rel="external">http://systemml.apache.org/</a></li>
+<li>项目地址:    <a href="https://github.com/apache/incubator-systemml" target="_blank" rel="external">https://github.com/apache/incubator-systemml</a></li>
+<li>项目简介:<br><ul>
+<li>SystemML provides declarative large-scale machine learning (ML) that aims at flexible specification of ML algorithms and automatic generation of hybrid runtime plans ranging from single node, in-memory computations, to distributed computations on Apache Hadoop and Apache Spark. ML algorithms are expressed in a R or Python syntax, that includes linear algebra primitives, statistical functions, and ML-specific constructs. This high-level language significantly increases the productivity of data scientists as it provides (1) full flexibility in expressing custom analytics, and (2) data independence from the underlying input formats and physical data representations. Automatic optimization according to data characteristics such as distribution on the disk file system, and sparsity as well as processing characteristics in the distributed environment like number of nodes, CPU, memory per node, ensures both efficiency and scalability.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h1 id="Apache_Singa"><em>Apache Singa</em></h1><ul>
+<li>项目主页:    <a href="https://singa.incubator.apache.org/" target="_blank" rel="external">https://singa.incubator.apache.org/</a></li>
+<li>项目地址:    <a href="https://github.com/apache/incubator-singa" target="_blank" rel="external">https://github.com/apache/incubator-singa</a></li>
+<li>项目简介:<ul>
+<li>Written almost completely in C++, this one emerged as an Apache incubator project in March. The original work on Singa was done by six students and research fellows from the National University of Singapore and one professor at China’s Zhejiang University.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h1 id="Brainstorm"><em>Brainstorm</em></h1><ul>
+<li>项目主页:    <a href="https://brainstorm.readthedocs.org/en/latest/index.html" target="_blank" rel="external">https://brainstorm.readthedocs.org/en/latest/index.html</a></li>
+<li>项目地址:     <a href="https://github.com/IDSIA/brainstorm" target="_blank" rel="external">https://github.com/IDSIA/brainstorm</a></li>
+<li>项目简介:<ul>
+<li>A promising new library from a small team of researchers at the Swiss artificial intelligence lab Istituto Dalle Molle di Studi sull’Intelligenza Artificiale (IDSIA), Brainstorm can handle what are being called Highway Networks involving very deep networks with hundreds of layers. Like Theano, it’s written in Python.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h1 id="Chainer"><em>Chainer</em></h1><ul>
+<li>项目主页:    <a href="http://chainer.org/" target="_blank" rel="external">http://chainer.org/</a></li>
+<li>项目地址:     <a href="https://github.com/pfnet/chainer" target="_blank" rel="external">https://github.com/pfnet/chainer</a></li>
+<li>项目简介:<ul>
+<li>Preferred Networks, a startup based in Japan, announced the release of the Python-based framework in June. Chainer’s design is based on the principle “define by run” — that is, the network is determined on the fly rather than only at the beginning, according to the documentation for the framework.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h1 id="ConvNetJS"><em>ConvNetJS</em></h1><ul>
+<li>项目主页:    <a href="http://cs.stanford.edu/people/karpathy/convnetjs/" target="_blank" rel="external">http://cs.stanford.edu/people/karpathy/convnetjs/</a></li>
+<li>项目地址:     <a href="https://github.com/karpathy/convnetjs" target="_blank" rel="external">https://github.com/karpathy/convnetjs</a></li>
+<li>项目简介:<ul>
+<li>This tool from Stanford University Ph.D. student Andrej Karpathy allows you to train neural nets right inside of your browser, using good old JavaScript. Karpathy has a great tutorial for getting started with ConvNetJS, as well as nifty browser-based demos.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h1 id="h2o"><em>h2o</em></h1><ul>
+<li>项目主页:     <a href="http://h2o.ai/" target="_blank" rel="external">http://h2o.ai/</a></li>
+<li>项目地址:    <a href="https://github.com/h2oai/h2o-3/tree/master/h2o-algos/src/main/java/hex/deeplearning" target="_blank" rel="external">https://github.com/h2oai/h2o-3/tree/master/h2o-algos/src/main/java/hex/deeplearning</a></li>
+<li>项目简介:<ul>
+<li>This Java-based framework is part of a more general machine learning runtime from a startup that goes by the same name (although not long ago the startup went by a different name, 0xdata).</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h1 id="Marvin"><em>Marvin</em></h1><ul>
+<li>项目主页:     <a href="http://marvin.is/" target="_blank" rel="external">http://marvin.is/</a></li>
+<li>项目地址:    <a href="https://github.com/PrincetonVision/marvin" target="_blank" rel="external">https://github.com/PrincetonVision/marvin</a></li>
+<li>项目简介:<ul>
+<li>Marvin is a GPU-only neural network framework made with simplicity, hackability, speed, memory consumption, and high dimensional data in mind.<br>This new entrant from Princeton University’s Vision Group is written in C++. The team offers a file for converting Caffe models into a format that works in Marvin.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h1 id="MatConvNet"><em>MatConvNet</em></h1><ul>
+<li>项目主页:    <a href="http://www.vlfeat.org/matconvnet/" target="_blank" rel="external">http://www.vlfeat.org/matconvnet/</a></li>
+<li>项目地址:    <a href="https://github.com/vlfeat/matconvnet" target="_blank" rel="external">https://github.com/vlfeat/matconvnet</a></li>
+<li>项目简介:<ul>
+<li>This is a MATLAB toolbox for implementing convolutional neural nets. It was first developed by professor Andrea Vedaldi and Ph.D. student Karel Lenc of the University of Oxford’s Robotics Research Group.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h1 id="MXNet"><em>MXNet</em></h1><ul>
+<li>项目主页:     <a href="http://mxnet.readthedocs.org/en/latest/" target="_blank" rel="external">http://mxnet.readthedocs.org/en/latest/</a></li>
+<li>项目地址:     <a href="https://github.com/dmlc/mxnet" target="_blank" rel="external">https://github.com/dmlc/mxnet</a></li>
+<li>项目简介:<ul>
+<li>Primarily written in C++, MXNet was created by the people behind the CXXNet, Minerva, and Purine2 projects. It’s meant to use memory efficiently, and can even run on a smartphone, for tasks like image recognition.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h1 id="Neon"><em>Neon</em></h1><ul>
+<li>项目主页:    <a href="http://neon.nervanasys.com/docs/latest/index.html" target="_blank" rel="external">http://neon.nervanasys.com/docs/latest/index.html</a></li>
+<li>项目地址:    <a href="http://venturebeat.com/2015/11/14/deep-learning-frameworks/" target="_blank" rel="external">http://venturebeat.com/2015/11/14/deep-learning-frameworks/</a></li>
+<li>项目简介:<ul>
+<li>Startup Nervana Systems published its Neon software under an open source back in May. Some benchmarks suggest that Neon — which is written mostly in Python and Sass — could outperform Caffe, Torch, and Google’s TensorFlow.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h1 id="Veles"><em>Veles</em></h1><ul>
+<li>项目主页:    <a href="https://velesnet.ml/" target="_blank" rel="external">https://velesnet.ml/</a></li>
+<li>项目地址:    <a href="https://github.com/samsung/veles" target="_blank" rel="external">https://github.com/samsung/veles</a></li>
+<li>项目简介:<ul>
+<li>Named after the Slavic god by the same name, Veles comes from Samsung. It’s written mostly in Python, and it can be run in an IPython notebook.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h1 id="参考链接"><em>参考链接</em></h1><ul>
+<li>揭秘TensorFlow：<br><a href="http://news.zol.com.cn/551/5513527.html" target="_blank" rel="external">http://news.zol.com.cn/551/5513527.html</a></li>
+<li>2015深度学习回顾：ConvNet、Caffe、Torch及其他<br><a href="http://www.chinacloud.cn/show.aspx?id=21212&amp;cid=17" target="_blank" rel="external">http://www.chinacloud.cn/show.aspx?id=21212&amp;cid=17</a></li>
+<li>GraphLab Create使深度学习更easy<br><a href="http://planckscale.info/?p=226" target="_blank" rel="external">http://planckscale.info/?p=226</a></li>
+<li>GraphLab:新的面向机器学习的并行框架<br><a href="http://planckscale.info/?p=226" target="_blank" rel="external">https://blog.inf.ed.ac.uk/graphprocs/2014/11/25/graphlab</a></li>
+<li>DL4J vs. Torch vs. Theano vs. Caffe<br><a href="http://deeplearning4j.org/compare-dl4j-torch7-pylearn.html" target="_blank" rel="external">http://deeplearning4j.org/compare-dl4j-torch7-pylearn.html</a></li>
+<li>KDnuggets热门深度学习工具排行：Pylearn2 居首，Caffe第三<br><a href="http://www.csdn.net/article/1970-01-01/2825166" target="_blank" rel="external">http://www.csdn.net/article/1970-01-01/2825166</a></li>
+<li>Want an open-source deep learning framework? Take your pick<br><a href="http://venturebeat.com/2015/11/14/deep-learning-frameworks/" target="_blank" rel="external">http://venturebeat.com/2015/11/14/deep-learning-frameworks/</a></li>
+</ul>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Computer-Science/" rel="tag">#Computer Science</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/11/21/云平台之Linux基础/" rel="prev" title="云平台之Linux基础">
+                云平台之Linux基础 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+        </div>
+
+        
+
+
+        
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+      </div>
+
+      
+        
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="/images/avatar.png" alt="Bin Xu" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">Bin Xu</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">The supreme happiness of life is the conviction that we are loved.</p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            
+              <span class="site-state-item-count">0</span>
+              <span class="site-state-item-name">分类</span>
+              
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">3</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/ysfalo" target="_blank">
+                  
+                    <i class="fa fa-github"></i> GitHub
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com//p/1005052274913464/home?from=page_100505&mod=TAB#place" target="_blank">
+                  
+                    <i class="fa fa-globe"></i> weibo
+                  
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#DMTK"><span class="nav-number">1.</span> <span class="nav-text">DMTK</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#TensorFlow"><span class="nav-number">2.</span> <span class="nav-text">TensorFlow</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Torch"><span class="nav-number">3.</span> <span class="nav-text">Torch</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#GraphLab"><span class="nav-number">4.</span> <span class="nav-text">GraphLab</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Deeplearning4j"><span class="nav-number">5.</span> <span class="nav-text">Deeplearning4j</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Caffe"><span class="nav-number">6.</span> <span class="nav-text">Caffe</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Theano"><span class="nav-number">7.</span> <span class="nav-text">Theano</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Pylearn2"><span class="nav-number">8.</span> <span class="nav-text">Pylearn2</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Apache_SystemML"><span class="nav-number">9.</span> <span class="nav-text">Apache SystemML</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Apache_Singa"><span class="nav-number">10.</span> <span class="nav-text">Apache Singa</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Brainstorm"><span class="nav-number">11.</span> <span class="nav-text">Brainstorm</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Chainer"><span class="nav-number">12.</span> <span class="nav-text">Chainer</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ConvNetJS"><span class="nav-number">13.</span> <span class="nav-text">ConvNetJS</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#h2o"><span class="nav-number">14.</span> <span class="nav-text">h2o</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Marvin"><span class="nav-number">15.</span> <span class="nav-text">Marvin</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MatConvNet"><span class="nav-number">16.</span> <span class="nav-text">MatConvNet</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MXNet"><span class="nav-number">17.</span> <span class="nav-text">MXNet</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Neon"><span class="nav-number">18.</span> <span class="nav-text">Neon</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Veles"><span class="nav-number">19.</span> <span class="nav-text">Veles</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考链接"><span class="nav-number">20.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+      
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="icon-next-heart fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Bin Xu</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+    
+    
+
+  
+
+
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.2"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.2"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+<script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+<script type="text/javascript" src="/js/motion.js?v=0.4.5.2" id="motion.global"></script>
+
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.2" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    motionMiddleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+      if (CONFIG.sidebar === 'post') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  <script type="text/javascript" src="/js/bootstrap.js"></script>
+
+  
+  
+
+  
+  
+
+</body>
+</html>

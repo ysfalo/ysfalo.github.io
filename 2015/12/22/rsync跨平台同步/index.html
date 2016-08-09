@@ -1,0 +1,731 @@
+<!doctype html>
+<html class="theme-next   use-motion ">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Computer Science," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.2" />
+
+
+
+
+
+
+<meta name="description" content="一、rsync功能描述通过rsync完成客户端文件改变，向服务端进行相应同步。
+
+二、rsync具体实现A. Ubuntu同步至Ubuntua. Ubuntu服务器端配置：
+修改rsync配置文件,将false改为true，以启用rsync：
+1sudo vim /etc/default/rsync
+
+将配置文件的示例拷贝到/etc下
+1cp /usr/share/doc/rsync/exampl">
+<meta property="og:type" content="article">
+<meta property="og:title" content="rsync跨平台同步">
+<meta property="og:url" content="http://yoursite.com/2015/12/22/rsync跨平台同步/index.html">
+<meta property="og:site_name" content="Bin Xu' s blog">
+<meta property="og:description" content="一、rsync功能描述通过rsync完成客户端文件改变，向服务端进行相应同步。
+
+二、rsync具体实现A. Ubuntu同步至Ubuntua. Ubuntu服务器端配置：
+修改rsync配置文件,将false改为true，以启用rsync：
+1sudo vim /etc/default/rsync
+
+将配置文件的示例拷贝到/etc下
+1cp /usr/share/doc/rsync/exampl">
+<meta property="og:updated_time" content="2016-07-10T13:42:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="rsync跨平台同步">
+<meta name="twitter:description" content="一、rsync功能描述通过rsync完成客户端文件改变，向服务端进行相应同步。
+
+二、rsync具体实现A. Ubuntu同步至Ubuntua. Ubuntu服务器端配置：
+修改rsync配置文件,将false改为true，以启用rsync：
+1sudo vim /etc/default/rsync
+
+将配置文件的示例拷贝到/etc下
+1cp /usr/share/doc/rsync/exampl">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'always',
+    motion: true
+  };
+</script>
+
+  <title> rsync跨平台同步 | Bin Xu' s blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+
+
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Bin Xu' s blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Life means struggle.</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                rsync跨平台同步
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2015-12-22T09:32:17+08:00" content="2015-12-22">
+              2015-12-22
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><hr>
+<h1 id="一、rsync功能描述"><em>一、rsync功能描述</em></h1><pre><code>通过rsync完成客户端文件改变，向服务端进行相应同步。
+</code></pre><hr>
+<h1 id="二、rsync具体实现"><em>二、rsync具体实现</em></h1><h2 id="A-_Ubuntu同步至Ubuntu"><em>A. Ubuntu同步至Ubuntu</em></h2><h3 id="a-_Ubuntu服务器端配置："><em>a. Ubuntu服务器端配置：</em></h3><ol>
+<li><p>修改rsync配置文件,将false改为true，以启用rsync：</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim <span class="regexp">/etc/</span><span class="keyword">default</span><span class="regexp">/rsync</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>将配置文件的示例拷贝到/etc下</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp <span class="regexp">/usr/</span>share<span class="regexp">/doc/</span>rsync<span class="regexp">/examples/</span>rsyncd.conf <span class="regexp">/etc/</span>rsyncd.conf</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>根据需求修改文件rsyncd.conf如下（//后为说明，配置时不要写）</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo <span class="keyword">vim</span> /etc/rsyncd.<span class="keyword">conf</span></span><br></pre></td></tr></table></figure>
+<p> 配置文件如下：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"># sample rsyncd.conf configuration file</span><br><span class="line"></span><br><span class="line"># GLOBAL OPTIONS</span><br><span class="line"></span><br><span class="line"># motd file=/etc/motd</span><br><span class="line">  log file=/var/log/rsyncd  //建议开启，查错必备</span><br><span class="line"># for pid file, <span class="operator"><span class="keyword">do</span> <span class="keyword">not</span> <span class="keyword">use</span> /<span class="keyword">var</span>/run/rsync.pid <span class="keyword">if</span></span><br><span class="line"># you <span class="keyword">are</span> going <span class="keyword">to</span> run rsync <span class="keyword">out</span> <span class="keyword">of</span> the init.<span class="keyword">d</span> script.</span><br><span class="line"># The init.<span class="keyword">d</span> script does its own pid <span class="keyword">file</span> handling,</span><br><span class="line"># so omit the <span class="string">"pid file"</span> line completely <span class="keyword">in</span> that <span class="keyword">case</span>.</span><br><span class="line"># pid <span class="keyword">file</span>=/<span class="keyword">var</span>/run/rsyncd.pid</span><br><span class="line"># syslog facility=daemon</span><br><span class="line"># socket options=</span><br><span class="line">  auth <span class="keyword">users</span> = <span class="keyword">user</span>  //允许登录名</span><br><span class="line">  secrets <span class="keyword">file</span> = /etc/rsyncd.secrets  //密码文件</span><br><span class="line"></span><br><span class="line"># <span class="keyword">MODULE</span> OPTIONS</span><br><span class="line"></span><br><span class="line">[<span class="keyword">test</span>]</span><br><span class="line"></span><br><span class="line">  <span class="keyword">comment</span> = <span class="keyword">public</span> <span class="keyword">archive</span></span><br><span class="line">  <span class="keyword">path</span> = /home/<span class="keyword">user</span>/rsyncTest  //服务器同步路径</span><br><span class="line">  <span class="keyword">use</span> chroot = yes</span><br><span class="line"># <span class="keyword">max</span> connections=<span class="number">10</span></span><br><span class="line"># <span class="keyword">lock</span> <span class="keyword">file</span> = /<span class="keyword">var</span>/<span class="keyword">lock</span>/rsyncd</span><br><span class="line"># the <span class="keyword">default</span> <span class="keyword">for</span> <span class="keyword">read</span> <span class="keyword">only</span> <span class="keyword">is</span> yes...</span><br><span class="line">  <span class="keyword">read</span> <span class="keyword">only</span> = <span class="keyword">no</span></span><br><span class="line">  <span class="keyword">list</span> = yes</span><br><span class="line">  uid = <span class="keyword">user</span></span><br><span class="line">  gid = <span class="keyword">user</span>  //执行的用户和组，与登录的用户无关</span><br><span class="line"># <span class="keyword">exclude</span> =</span><br><span class="line"># <span class="keyword">exclude</span> <span class="keyword">from</span> =</span><br><span class="line"># <span class="keyword">include</span> =</span><br><span class="line"># <span class="keyword">include</span> <span class="keyword">from</span> =</span><br><span class="line">  <span class="keyword">strict</span> modes = yes  //严格模式，检查密码文件的权限（需要<span class="number">600</span>）</span><br><span class="line">  <span class="keyword">hosts</span> <span class="keyword">allow</span> = <span class="number">192.168</span><span class="number">.111</span><span class="number">.111</span>,<span class="number">192.168</span><span class="number">.111</span><span class="number">.112</span> //允许访问的IP</span><br><span class="line"># <span class="keyword">hosts</span> deny =</span><br><span class="line">  <span class="keyword">ignore</span> <span class="keyword">errors</span> = <span class="keyword">no</span></span><br><span class="line">  <span class="keyword">ignore</span> nonreadable = yes</span><br><span class="line">  transfer <span class="keyword">logging</span> = <span class="keyword">no</span></span><br><span class="line"># <span class="keyword">log</span> <span class="keyword">format</span> = %<span class="keyword">t</span>: host %h (%a) %o %<span class="keyword">f</span> (%<span class="keyword">l</span> <span class="keyword">bytes</span>). Total %b <span class="keyword">bytes</span>.</span><br><span class="line">  <span class="keyword">timeout</span> = <span class="number">600</span></span><br><span class="line">  refuse options = <span class="keyword">checksum</span> dry-run</span><br><span class="line">  dont <span class="keyword">compress</span> = *.gz *.tgz *.zip *.z *.rpm *.deb *.iso *.bz2 *.tbz</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>编辑密码文件</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim <span class="regexp">/etc/</span>rsyncd.secrets</span><br></pre></td></tr></table></figure>
+<p> 文件如下：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">user:</span>passwd <span class="comment">//用户名：密码</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>启用rsync服务</p>
+<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo service rsync <span class="literal">start</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<a id="more"></a>
+<h3 id="b-_Ubuntu客户端配置："><em>b. Ubuntu客户端配置：</em></h3><ol>
+<li><p>创建并编辑脚本rsync_inotify.sh如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="shebang">#!/bin/bash</span></span><br><span class="line"><span class="comment">#inotify scan path ,backup to remote server</span></span><br><span class="line">src=/usr/hadoop/conf/  //需要同步的目录</span><br><span class="line">remote=<span class="number">192.168</span>.<span class="number">111.111</span>::<span class="built_in">test</span></span><br><span class="line">/usr/bin/inotifywait -mrq --timefmt <span class="string">'%d/%m/%y %H:%M'</span> --format <span class="string">'%T %w%f%e'</span> <span class="operator">-e</span> close_write,delete,create,attrib <span class="variable">$src</span> | <span class="keyword">while</span> <span class="built_in">read</span> files</span><br><span class="line"><span class="keyword">do</span>                                                                                                                     </span><br><span class="line">/usr/bin/rsync -vzrtopg --delete --progress --password-file=/etc/rsyncd.pass <span class="variable">$src</span> <span class="variable">$remote</span>             </span><br><span class="line"><span class="built_in">echo</span> <span class="string">"<span class="variable">$&#123;files&#125;</span> was rsynced"</span> &gt;&gt; /var/<span class="built_in">log</span>/rsync.log <span class="number">2</span>&gt;&amp;<span class="number">1</span>                                                              </span><br><span class="line"><span class="keyword">done</span>                                                                                                                   </span><br><span class="line"><span class="built_in">exit</span> <span class="number">0</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>编辑密码文件</p>
+<figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /etc/rsyncd.<span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+<p> 文件如下：</p>
+<figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">passwd	<span class="comment">//只需要密码</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>以管理员身份运行脚本</p>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo <span class="keyword">sh</span> rsync-inotify.<span class="keyword">sh</span></span><br></pre></td></tr></table></figure>
+<p> 或者后台运行</p>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nohub sudo <span class="keyword">sh</span> rsync-inotify.<span class="keyword">sh</span>&gt;rsync.<span class="keyword">log</span>&amp;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="c-_注意点："><em>c. 注意点：</em></h3><pre><code>开启严格模式后，密码文件的权限要为<span class="number">600</span>
+</code></pre><h2 id="B-_Ubuntu同步至Windows"><em>B. Ubuntu同步至Windows</em></h2><h3 id="a-_Windows服务器端配置"><em>a. Windows服务器端配置</em></h3><ol>
+<li><p>软件安装（服务器端安装cwRsyncServer）<br>cwRsync是Rsync在Windows上的实现版本，Rsync通过使用特定算法的文件传输技术，可以在网络上传输只修改了的文件。<br>cwRsync主要用于Windows上的远程文件同步备份和同步，它包含Cygwin DLL和适用Cygwin版本的Rsync两部分。<br>cwRsync分为Server和Client，本文使用的版本为4.1.0，下载地址如下：<br>cwRsyncServer v4.1.0：<a href="http://pan.baidu.com/s/1eQpaIVw" target="_blank" rel="external">http://pan.baidu.com/s/1eQpaIVw</a><br>cwRsync v4.1.0：<a href="http://pan.baidu.com/s/1pJ3B1FX" target="_blank" rel="external">http://pan.baidu.com/s/1pJ3B1FX</a></p>
+</li>
+<li><p>服务配置，软件安装目录下rsyncd.conf文件（与Ubuntu类似）</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator"><span class="keyword">use</span> chroot = <span class="literal">false</span></span><br><span class="line"><span class="keyword">strict</span> modes = <span class="literal">false</span>  //严格模式关闭</span><br><span class="line"><span class="keyword">hosts</span> <span class="keyword">allow</span> = <span class="number">192.168</span><span class="number">.40</span><span class="number">.126</span>,<span class="number">192.168</span><span class="number">.40</span><span class="number">.229</span> //允许的IP</span><br><span class="line"><span class="keyword">log</span> <span class="keyword">file</span> = rsyncd.<span class="keyword">log</span></span><br><span class="line">port = <span class="number">873</span></span><br><span class="line">uid = <span class="number">0</span></span><br><span class="line">gid = <span class="number">0</span></span><br><span class="line">auth <span class="keyword">users</span>=dl</span><br><span class="line">secrets <span class="keyword">file</span>=/cygdrive/<span class="keyword">g</span>/ICW/rsyncd.secrets</span><br><span class="line"># <span class="keyword">Module</span> definitions</span><br><span class="line"># Remember cygwin naming conventions : <span class="keyword">c</span>:\<span class="keyword">work</span> becomes /cygwin/<span class="keyword">c</span>/<span class="keyword">work</span></span><br><span class="line">#</span><br><span class="line">[xb]</span><br><span class="line"><span class="keyword">path</span> = /cygdrive/<span class="keyword">g</span>/<span class="keyword">ftp</span>/usr/xb/共享/rsync</span><br><span class="line"><span class="keyword">read</span> <span class="keyword">only</span> = <span class="literal">false</span></span><br><span class="line">transfer <span class="keyword">logging</span> = yes</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>密码文件rsyncd.secrets</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">user:</span>passwd <span class="comment">//用户名：密码</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>启动服务<br> 在Server机器上运行services.msc，选择服务”RsyncServer”配置启动类型为”自动”，启动该服务。</p>
+</li>
+</ol>
+<h3 id="b-_Ubuntu客户端配置（同上）："><em>b. Ubuntu客户端配置（同上）：</em></h3><h3 id="c-_注意点：-1"><em>c. 注意点：</em></h3><pre><code>Windows下建议关闭严格模式，折腾了好久搞不定。
+</code></pre><h2 id="C-_Windows同步至Ubuntu"><em>C. Windows同步至Ubuntu</em></h2><h3 id="a-_Ubuntu服务器端配置（同上）："><em>a. Ubuntu服务器端配置（同上）：</em></h3><h3 id="b-_Windows客户端配置："><em>b. Windows客户端配置：</em></h3><ol>
+<li>软件安装（客户端安装cwRsync）</li>
+<li><p>新建同步脚本</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rsync -avrz --progress --password-<span class="keyword">file</span>=<span class="regexp">/cygdrive/</span>d<span class="regexp">/cwRsync/</span>rsyncd.secrets <span class="regexp">/cygdrive/</span>d<span class="regexp">/cwRsync/</span>test<span class="regexp">/ deeplearning@192.168.40.79::test</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>密码文件rsyncd.secrets</p>
+<figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">passwd	<span class="comment">//只需要密码</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="c-_编写计划任务"><em>c. 编写计划任务</em></h3><pre><code>打开windows任务计划程序，创建基本任务，可以每天定时运行同步脚本
+</code></pre><h2 id="D-_Windows同步至Windows（服务器端和客户端配置同上）"><em>D. Windows同步至Windows（服务器端和客户端配置同上）</em></h2><hr>
+<h1 id="三、问题"><em>三、问题</em></h1><h2 id="A-_同步的文件名有中文会乱码，内容有中文无所谓"><em>A. 同步的文件名有中文会乱码，内容有中文无所谓</em></h2><h2 id="B-_Windows向ubuntu服务器同步文件后，文件的权限是000，需要chmod后才能使用。"><em>B. Windows向ubuntu服务器同步文件后，文件的权限是000，需要chmod后才能使用。</em></h2></span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Computer-Science/" rel="tag">#Computer Science</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/12/02/Ubuntu下Hexo安装/" rel="next" title="Ubuntu下Hexo安装">
+                <i class="fa fa-chevron-left"></i> Ubuntu下Hexo安装
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/04/01/mxnet之fine-tune/" rel="prev" title="mxnet之fine tune">
+                mxnet之fine tune <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+        </div>
+
+        
+
+
+        
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+      </div>
+
+      
+        
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="/images/avatar.png" alt="Bin Xu" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">Bin Xu</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">The supreme happiness of life is the conviction that we are loved.</p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            
+              <span class="site-state-item-count">0</span>
+              <span class="site-state-item-name">分类</span>
+              
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">3</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/ysfalo" target="_blank">
+                  
+                    <i class="fa fa-github"></i> GitHub
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com//p/1005052274913464/home?from=page_100505&mod=TAB#place" target="_blank">
+                  
+                    <i class="fa fa-globe"></i> weibo
+                  
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一、rsync功能描述"><span class="nav-number">1.</span> <span class="nav-text">一、rsync功能描述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二、rsync具体实现"><span class="nav-number">2.</span> <span class="nav-text">二、rsync具体实现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#A-_Ubuntu同步至Ubuntu"><span class="nav-number">2.1.</span> <span class="nav-text">A. Ubuntu同步至Ubuntu</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#a-_Ubuntu服务器端配置："><span class="nav-number">2.1.1.</span> <span class="nav-text">a. Ubuntu服务器端配置：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#b-_Ubuntu客户端配置："><span class="nav-number">2.1.2.</span> <span class="nav-text">b. Ubuntu客户端配置：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#c-_注意点："><span class="nav-number">2.1.3.</span> <span class="nav-text">c. 注意点：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#B-_Ubuntu同步至Windows"><span class="nav-number">2.2.</span> <span class="nav-text">B. Ubuntu同步至Windows</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#a-_Windows服务器端配置"><span class="nav-number">2.2.1.</span> <span class="nav-text">a. Windows服务器端配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#b-_Ubuntu客户端配置（同上）："><span class="nav-number">2.2.2.</span> <span class="nav-text">b. Ubuntu客户端配置（同上）：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#c-_注意点：-1"><span class="nav-number">2.2.3.</span> <span class="nav-text">c. 注意点：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#C-_Windows同步至Ubuntu"><span class="nav-number">2.3.</span> <span class="nav-text">C. Windows同步至Ubuntu</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#a-_Ubuntu服务器端配置（同上）："><span class="nav-number">2.3.1.</span> <span class="nav-text">a. Ubuntu服务器端配置（同上）：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#b-_Windows客户端配置："><span class="nav-number">2.3.2.</span> <span class="nav-text">b. Windows客户端配置：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#c-_编写计划任务"><span class="nav-number">2.3.3.</span> <span class="nav-text">c. 编写计划任务</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#D-_Windows同步至Windows（服务器端和客户端配置同上）"><span class="nav-number">2.4.</span> <span class="nav-text">D. Windows同步至Windows（服务器端和客户端配置同上）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三、问题"><span class="nav-number">3.</span> <span class="nav-text">三、问题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#A-_同步的文件名有中文会乱码，内容有中文无所谓"><span class="nav-number">3.1.</span> <span class="nav-text">A. 同步的文件名有中文会乱码，内容有中文无所谓</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#B-_Windows向ubuntu服务器同步文件后，文件的权限是000，需要chmod后才能使用。"><span class="nav-number">3.2.</span> <span class="nav-text">B. Windows向ubuntu服务器同步文件后，文件的权限是000，需要chmod后才能使用。</span></a></li></ol></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+      
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="icon-next-heart fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Bin Xu</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+    
+    
+
+  
+
+
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.2"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.2"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+<script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+<script type="text/javascript" src="/js/motion.js?v=0.4.5.2" id="motion.global"></script>
+
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.2" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    motionMiddleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+      if (CONFIG.sidebar === 'post') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  <script type="text/javascript" src="/js/bootstrap.js"></script>
+
+  
+  
+
+  
+  
+
+</body>
+</html>
