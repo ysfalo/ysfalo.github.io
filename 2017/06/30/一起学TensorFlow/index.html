@@ -51,19 +51,19 @@
 
 
 
-<meta name="description" content="记录一些学习TensorFlow过程中遇到的一些问题，做一名合格的TFBoy！选择指定GPU如果电脑有多个GPU，如果想只使用部分GPU，可以设置CUDA_VISIBLE_DEVICES。在调用python程序时，可以使用123CUDA_VISIBLE_DEVICES=1 python my_script.py``` 或者
-Environment Variable Syntax      Resu">
+<meta name="description" content="记录一些学习TensorFlow过程中遇到的一些问题，做一名合格的TFBoy！
+选择指定GPU如果电脑有多个GPU，如果想只使用部分GPU，可以设置CUDA_VISIBLE_DEVICES。在调用python程序时，可以使用">
 <meta property="og:type" content="article">
 <meta property="og:title" content="一起学TensorFlow">
 <meta property="og:url" content="http://yoursite.com/2017/06/30/一起学TensorFlow/index.html">
 <meta property="og:site_name" content="Bin Xu' s blog">
-<meta property="og:description" content="记录一些学习TensorFlow过程中遇到的一些问题，做一名合格的TFBoy！选择指定GPU如果电脑有多个GPU，如果想只使用部分GPU，可以设置CUDA_VISIBLE_DEVICES。在调用python程序时，可以使用123CUDA_VISIBLE_DEVICES=1 python my_script.py``` 或者
-Environment Variable Syntax      Resu">
-<meta property="og:updated_time" content="2017-06-30T06:28:36.000Z">
+<meta property="og:description" content="记录一些学习TensorFlow过程中遇到的一些问题，做一名合格的TFBoy！
+选择指定GPU如果电脑有多个GPU，如果想只使用部分GPU，可以设置CUDA_VISIBLE_DEVICES。在调用python程序时，可以使用">
+<meta property="og:updated_time" content="2017-06-30T06:32:25.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="一起学TensorFlow">
-<meta name="twitter:description" content="记录一些学习TensorFlow过程中遇到的一些问题，做一名合格的TFBoy！选择指定GPU如果电脑有多个GPU，如果想只使用部分GPU，可以设置CUDA_VISIBLE_DEVICES。在调用python程序时，可以使用123CUDA_VISIBLE_DEVICES=1 python my_script.py``` 或者
-Environment Variable Syntax      Resu">
+<meta name="twitter:description" content="记录一些学习TensorFlow过程中遇到的一些问题，做一名合格的TFBoy！
+选择指定GPU如果电脑有多个GPU，如果想只使用部分GPU，可以设置CUDA_VISIBLE_DEVICES。在调用python程序时，可以使用">
 
 
 
@@ -239,9 +239,16 @@ Environment Variable Syntax      Resu">
 
       
         <span itemprop="articleBody"><hr>
-<h1 id="记录一些学习TensorFlow过程中遇到的一些问题，做一名合格的TFBoy！"><em>记录一些学习TensorFlow过程中遇到的一些问题，做一名合格的TFBoy！</em></h1><h2 id="选择指定GPU"><em>选择指定GPU</em></h2><p>如果电脑有多个GPU，如果想只使用部分GPU，可以设置CUDA_VISIBLE_DEVICES。在调用python程序时，可以使用<br><figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">CUD<span class="built_in">A_VISIBLE</span>_DEVICES=<span class="number">1</span> python my_script.py</span><br><span class="line"><span class="escape">``</span><span class="escape">` </span></span><br><span class="line">或者</span><br></pre></td></tr></table></figure></p>
-<p>Environment Variable Syntax      Results<br>CUDA_VISIBLE_DEVICES=1           Only device 1 will be seen<br>CUDA_VISIBLE_DEVICES=0,1         Devices 0 and 1 will be visible<br>CUDA_VISIBLE_DEVICES=”0,1”       Same as above, quotation marks are optional<br>CUDA_VISIBLE_DEVICES=0,2,3       Devices 0, 2, 3 will be visible; device 1 is masked<br>CUDA_VISIBLE_DEVICES=””          No GPU will be visible<br><figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">如果要在python代码中设置使用的GPU，可以在程序中使用下面的代码：</span><br><span class="line"><span class="escape">``</span><span class="escape">`p</span>ython</span><br><span class="line">import os</span><br><span class="line">os.environ[<span class="string">"CUDA_VISIBLE_DEVICES"</span>] = <span class="string">"2"</span></span><br></pre></td></tr></table></figure></p>
-<h2 id="可视化feature_map"><em>可视化feature map</em></h2><p>在训练过程中可以借助于Tensorboard对feature map进行可视化。默认的tensorboard支持的image的summary对通道数有限制，必须是1、3或者4。对于多通道的feature map，一个可行的办法便是将多个通道展开，然后拼成一副很大的单通道的image，然后写进summary中。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># conv_feature 是需要可视化的张量, shape=(batch_size, height, width, channels), 假设我们例子里channels=64</span></span><br><span class="line">vis_conv_feature = tf.slice(conv_feature, (<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>), (<span class="number">1</span>, -<span class="number">1</span>, -<span class="number">1</span>, -<span class="number">1</span>)) <span class="comment"># 取出batch里面的第一个sample</span></span><br><span class="line">vis_conv_feature = tf.reshape(vis_conv_feature, (height, width, channels))</span><br><span class="line">vis_conv_feature = tf.image.resize_image_with_crop_or_pad(vis_conv_feature, height+<span class="number">4</span>, widht+<span class="number">4</span>) <span class="comment"># 4这里用来隔开拼接的每个通道的图，也可以设为其它的值</span></span><br><span class="line">vis_conv_feature = tf.reshape(vis_conv_feature, (height+<span class="number">4</span>, widht+<span class="number">4</span>, <span class="number">8</span>, <span class="number">8</span>)) <span class="comment"># 64=8x8,就是64通道图展开为8x8的一个通道的图</span></span><br><span class="line">vis_conv_feature = tf.transpose(vis_conv_feature, (<span class="number">2</span>, <span class="number">0</span>, <span class="number">3</span>, <span class="number">1</span>))</span><br><span class="line">vis_conv_feature = tf.reshape(vis_conv_feature, (<span class="number">1</span>, (height+<span class="number">4</span>)*<span class="number">8</span>, (widht+<span class="number">4</span>)*<span class="number">8</span>, <span class="number">1</span> ))</span><br><span class="line">tf.summary.image(<span class="string">'vis_conv_feature'</span>, vis_conv_feature)</span><br></pre></td></tr></table></figure></p>
+<h1 id="记录一些学习TensorFlow过程中遇到的一些问题，做一名合格的TFBoy！"><em>记录一些学习TensorFlow过程中遇到的一些问题，做一名合格的TFBoy！</em></h1><ol>
+<li><em>选择指定GPU</em><br>如果电脑有多个GPU，如果想只使用部分GPU，可以设置CUDA_VISIBLE_DEVICES。在调用python程序时，可以使用<a id="more"></a>
+</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">CUDA_VISIBLE_DEVICES=<span class="number">1</span> python my_script.py</span><br><span class="line"><span class="preprocessor">#</span></span><br><span class="line"><span class="preprocessor"># ----------------------- details ---------------------</span></span><br><span class="line"><span class="preprocessor">#</span></span><br><span class="line">Environment Variable Syntax      Results</span><br><span class="line">CUDA_VISIBLE_DEVICES=<span class="number">1</span>           Only device <span class="number">1</span> will be seen</span><br><span class="line">CUDA_VISIBLE_DEVICES=<span class="number">0</span>,<span class="number">1</span>         Devices <span class="number">0</span> and <span class="number">1</span> will be visible</span><br><span class="line">CUDA_VISIBLE_DEVICES=<span class="string">"0,1"</span>       Same as above, quotation marks are optional</span><br><span class="line">CUDA_VISIBLE_DEVICES=<span class="number">0</span>,<span class="number">2</span>,<span class="number">3</span>       Devices <span class="number">0</span>, <span class="number">2</span>, <span class="number">3</span> will be visible; device <span class="number">1</span> is masked</span><br><span class="line">CUDA_VISIBLE_DEVICES=<span class="string">""</span>          No GPU will be visible</span><br></pre></td></tr></table></figure>
+<p>如果要在python代码中设置使用的GPU，可以在程序中使用下面的代码：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line">os.environ[<span class="string">"CUDA_VISIBLE_DEVICES"</span>] = <span class="string">"2"</span></span><br></pre></td></tr></table></figure></p>
+<ol>
+<li><em>可视化feature map</em><br>在训练过程中可以借助于Tensorboard对feature map进行可视化。默认的tensorboard支持的image的summary对通道数有限制，必须是1、3或者4。对于多通道的feature map，一个可行的办法便是将多个通道展开，然后拼成一副很大的单通道的image，然后写进summary中。<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># conv_feature 是需要可视化的张量, shape=(batch_size, height, width, channels), 假设我们例子里channels=64</span></span><br><span class="line">vis_conv_feature = tf.slice(conv_feature, (<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>), (<span class="number">1</span>, -<span class="number">1</span>, -<span class="number">1</span>, -<span class="number">1</span>)) <span class="comment"># 取出batch里面的第一个sample</span></span><br><span class="line">vis_conv_feature = tf.reshape(vis_conv_feature, (height, width, channels))</span><br><span class="line">vis_conv_feature = tf.image.resize_image_with_crop_or_pad(vis_conv_feature, height+<span class="number">4</span>, widht+<span class="number">4</span>) <span class="comment"># 4这里用来隔开拼接的每个通道的图，也可以设为其它的值</span></span><br><span class="line">vis_conv_feature = tf.reshape(vis_conv_feature, (height+<span class="number">4</span>, widht+<span class="number">4</span>, <span class="number">8</span>, <span class="number">8</span>)) <span class="comment"># 64=8x8,就是64通道图展开为8x8的一个通道的图</span></span><br><span class="line">vis_conv_feature = tf.transpose(vis_conv_feature, (<span class="number">2</span>, <span class="number">0</span>, <span class="number">3</span>, <span class="number">1</span>))</span><br><span class="line">vis_conv_feature = tf.reshape(vis_conv_feature, (<span class="number">1</span>, (height+<span class="number">4</span>)*<span class="number">8</span>, (widht+<span class="number">4</span>)*<span class="number">8</span>, <span class="number">1</span> ))</span><br><span class="line">tf.summary.image(<span class="string">'vis_conv_feature'</span>, vis_conv_feature)</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
 <p>参考 <a href="http://stackoverflow.com/questions/33802336/visualizing-output-of-convolutional-layer-in-tensorflow" target="_blank" rel="external">http://stackoverflow.com/questions/33802336/visualizing-output-of-convolutional-layer-in-tensorflow</a> </p>
 </span>
       
@@ -398,7 +405,7 @@ Environment Variable Syntax      Resu">
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#记录一些学习TensorFlow过程中遇到的一些问题，做一名合格的TFBoy！"><span class="nav-number">1.</span> <span class="nav-text">记录一些学习TensorFlow过程中遇到的一些问题，做一名合格的TFBoy！</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#选择指定GPU"><span class="nav-number">1.1.</span> <span class="nav-text">选择指定GPU</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#可视化feature_map"><span class="nav-number">1.2.</span> <span class="nav-text">可视化feature map</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#记录一些学习TensorFlow过程中遇到的一些问题，做一名合格的TFBoy！"><span class="nav-number">1.</span> <span class="nav-text">记录一些学习TensorFlow过程中遇到的一些问题，做一名合格的TFBoy！</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">
@@ -426,14 +433,18 @@ Environment Variable Syntax      Resu">
   <span class="author" itemprop="copyrightHolder">Bin Xu</span>
 </div>
 
-<div class="powered-by">
-  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
-</div>
 
-<div class="theme-info">
-  主题 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
-    NexT.Mist
+      <%= __('Contact:') %> <a href="http://www.ysfalo.cn/" target="_blank">Website</a>
+	&nbsp
+	 <a href="mailto:ysfalo@whu.edu.cn" target="_blank">E-mail</a>
+
+
+<div>
+  Contact:
+</div>
+<div>
+  <a href="mailto:ysfalo@whu.edu.cn">
+    E-mail
   </a>
 </div>
 
