@@ -1,0 +1,24 @@
+# jemdoc: menu{MENU}{cv.html} ,nofooter
+
+= Bin Xu
+
+
+== Education
+- M.S. Photogrammetry and Remote Sensing, [http://rsgis.whu.edu.cn/en/index.html School of Remote Sensing and Information Engineering], [http://www.whu.edu.cn/ Wuhan University], 
+  September 2015
+- B.E.  Surveying Engineering, [http://en.sgg.whu.edu.cn/ School of Geodesy and Geomatics], [http://www.whu.edu.cn/ Wuhan University], September 2011
+
+
+== Awards
+- The Champion, [http://www.bigmm2015.org/ IEEE BigMM 2015 Challenge]: "Large-Scale Object Tracking over a Multiple-Camera Network", 2015
+- The First-Class Price, The 14th Challenge Cupnational Undergraduate Curricular Academic Science and Technology Contest on 'Smart City', 2015
+- The Second-Class Price, [http://www.smartcity-competition.com.cn/ The 3rd National Graduate Contest on Smart-City Technology and Creative Design], Abnormal Event Dedection， 2016
+- National Scholarship, 2016
+- Bronze Award, The 1st Public Opinion Analysis Technology Invitational, Face Recognition, 2016
+- Advanced Individual, Wuhan University, 2015
+- Top 1 in sub-tasks in [http://www-nlpir.nist.gov/projects/tv2015/tv2015.html TRECVID SED], 2015
+
+== Others
+- [http://www-nlpir.nist.gov/projects/tvpubs/tv15.papers/iip_whu.pdf TRECVID 2015 Papers]
+- Programming: Python, Matlab, Java
+- Deep Learning: Caffe, TensorFlow, Keras

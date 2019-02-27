@@ -1,0 +1,36 @@
+# jemdoc: menu{MENU}{index.html} ,nofooter
+
+= Bin Xu
+
+~~~
+{}{img_left}{images/xb.jpg}{Bin Xu}{180}{180}{}
+[http://ysfalo.github.io Bin Xu], M.Sc. Student of RS (2015-)
+({{<a href="http://www.gov.cn/"><img src="images/cn.png" alt="CN" /></a>}}) \n\n
+[http://iip.whu.edu.cn Intelligent Information Processing Lab.]\n
+[http://www.whu.edu.cn/ Wuhan University]\n\n
+Advisors: \n
+[http://iip.whu.edu.cn/about/ Professor Zhenzhong Chen]\n
+          [http://rsgis.whu.edu.cn/index.php?m=content&c=index&a=show&catid=127&id=4439 Associate Professor Daiqin Yang]
+
+~~~
+
+
+= Research
+- Computer Vision
+- Deep Learning
+- Remote Sensing Image Processing
+
+
+= Education
+- M.S. Photogrammetry and Remote Sensing, [http://rsgis.whu.edu.cn/en/index.html School of Remote Sensing and Information Engineering], [http://www.whu.edu.cn/ Wuhan University], 
+  September 2015
+- B.E.  Surveying Engineering, [http://en.sgg.whu.edu.cn/ School of Geodesy and Geomatics], [http://www.whu.edu.cn/ Wuhan University], September 2011
+
+
+= Contact
+- [http://iip.whu.edu.cn/users/~binxu/ Personal Website]
+- [http://ysfalo.github.io Personal Blog]
+- Wechat: {{<a href="images/wechat.JPG">YsFaLo</a>}}
+- Tencent QQ: {{<a href="images/qq.JPG">734834662</a>}}
+- E-mail: [ysfalo@whu.edu.cn]
+- Address: Room 221, School of Remote Sensing and Information Engineering, Wuhan University
